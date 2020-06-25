@@ -4,7 +4,24 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
-document.addEventListener("DOMContentLoaded", () => {
+
+// Read entire README.md 
+
+    // Enter into the terminal: 'open index.html'         =>          Opens up the web app in Google Chrome 
+    // cmd+opt+i to show console (elements section)
+    // List out these things from the README.md: (*see below)
+        // Features 
+            // Create features as variables.
+        // Behaviors 
+            // Create behaviors as functions. 
+
+//  Write this on top of the .js file in order to indicate that this is an app with events. 
+    
+    document.addEventListener("DOMContentLoaded", () => {
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
@@ -46,81 +63,144 @@ document.addEventListener("DOMContentLoaded", () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Building the 'like button': 
+    
+    // Create the following variable for the like button (named 'heart'): 
+        // heartButton
+            const heartButton = document.getElementById('heart')
 
+    // Create the following function: 
 
+heartButton.addEventListener('click', function(e)) 
+    // 'heartButton' => tells us where the element is located
+    // '.addEventListener' function, which has these two arguments:      
+        // (1) type of event, and 
+            // Link to all types of JS events: https://www.w3schools.com/js/js_events.asp
+        // (2) callback action:
+            // 'function(e) { }' 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Building the comment box with a submit button:
 
-    // * A Counter that increases by 1 each second
-// setinterval on counter (seconds)
-// increment by one
+    // Create the following variable for the 'submit' button (named 'submit'):
+            const submitButton = document.querySelector("#submit")
 
-    
-    
-    console.log(likesUl)
-    
-    // console.log(pageCounter)
-    let timer = setInterval(incrementFunc, 1000)
-    function incrementFunc () {
-    pageCounter.innerText = parseInt(pageCounter.innerText) + 1 
-    }
-    incrementFunc()
-    
-    function decrementFunc () {
-    pageCounter.innerText = parseInt(pageCounter.innerText) - 1 
-    }
-    
-    plusButton.addEventListener("click", incrementFunc)
-    minusButton.addEventListener("click", decrementFunc)
-    
-    
-    // likeButton.addEventListener("click", addLikes)
-    // function addLikes () {
-    // likesLi = document.createElement("li")
-    // // likes = parseInt(likesLI)
-    // likesLi.dataset.likes = 1
-    
-    
-    
-    // // likesLi.innerText = parseInt(likesLi.innerText) + 1 
-    // likesUl.append(likesLi)
-    // }
-    
-    
-    submitButton.addEventListener("click", (e) => {
+    // Create the following function/s: 
+
+submitButton.addEventListener('click', function(e){
+    // 'submitButton" => tells us where this element is located on the web page 
     e.preventDefault()
-    newCommentDiv = document.createElement("div")
-    newComment = commentFormContent.value
-    newCommentDiv.innerText = newComment
-    commentsDiv.append(newCommentDiv)
+    // *Note: 'preventDefault' method is used only within forms. 
+    // 'preventDefault' makes sure the web page does not refresh after user clicks on 'submmit'. 
     
+    let commentDiv = document.createElement('div')
+    // use 'let' (and not 'const') 
+    // creates a new container 
     
-    })
+    let comment = document.querySelector("#comment-input").value
+    // fills that new container with the user's input ("#comment-input")
+    // '.value' added to the comment field to indicate we're grabbing what user inputs 
     
-    
-    })
-    
-    
-    
-    
-    
-    /* <ul class='likes'></ul> */
-    
-    
-    
-    
-    
-    
-    
-    
-    // * Plus and Minus buttons that increment or decrement the counter
-    // click listener on the plus and minus buttons
-    // increment or decrement counter
-    
-    
-    // * A 'like' button (❤️) that adds a 'like' for the number that is currently displayed by the timer
-    // find the like button
-    // click listener 
-    // increment likes
-    
-    // * A comment box that adds comments when submitted
+    document.querySelector("#comment-input").value = ''
+    // '.querySelector' can be added to either documents or elements.
+
+    commentDiv.innerText = comment
+    // '.innerText' refers to the plain text between the div tag
+    // *innerText vs. innerHTML: 
+        // innerText is used if only plain text - e.g. <div>Hello, World</div>
+
+    commentsDiv.append(commentDiv)
+    // 'commentsDiv' is a variable created to hold the list's location within index.html.     
+    // '.append' adds the user's comment to the list 
+
+})
+
+
+
+
+
+// //increment the counter
+// //find the counter element/node
+// //increase that counter every second 
+
+// const counter = document.getElementById('counter')
+// const minusButton = document.getElementById('minus')
+// const plusButton = document.getElementById('plus')
+// const heartButton = document.getElementById('heart')
+// const pauseButton  = document.getElementById('pause')
+// const submitButton = document.querySelector("#submit")
+// const likesUL = document.querySelector("body > ul")
+// const commentsDiv = document.querySelector("#list")
+
+// let isTimerRunning = true
+
+
+
+// let timer = setInterval(incrementCounter, 1000);
+
+function incrementCounter(){
+    let number = parseInt(counter.innerText)
+    number++
+    counter.innerText = number
+}
+
+function decrementCounter(){
+    let number = parseInt(counter.innerText)
+    number--
+    counter.innerText = number
+}
+
+plusButton.addEventListener('click', incrementCounter)
+minusButton.addEventListener('click', decrementCounter)
+heartButton.addEventListener('click', function(e){
+    let liExist = document.getElementById(`${counter.innerText}Likes`)
+    if (liExist){
+        let likes = parseInt(liExist.dataset.likes)
+        likes += 1
+        liExist.dataset.likes = likes 
+        liExist.innerText = `${counter.innerText} has been liked ${liExist.dataset.likes} times`
+    }else {
+        let likeLI = document.createElement('li')
+        likeLI.dataset.likes = 1
+        likeLI.id = `${counter.innerText}Likes`
+        likeLI.innerText = `${counter.innerText} has been liked ${likeLI.dataset.likes} time`
+        likesUL.append(likeLI)
+    }
+})
+pauseButton.addEventListener('click', function(e){
+    if (isTimerRunning === true) {
+        clearInterval(timer)
+        pauseButton.innerText = 'resume'
+        minusButton.disabled = true
+        plusButton.disabled = true
+        heartButton.disabled = true
+        submitButton.disabled = true
+        isTimerRunning = false
+    } else {
+        timer = setInterval(incrementCounter, 1000);
+        pauseButton.innerText = 'pause'
+        minusButton.disabled = false
+        plusButton.disabled = false
+        heartButton.disabled = false
+        submitButton.disabled = false
+        isTimerRunning = true
+    }
+})
+
+submitButton.addEventListener('click', function(e){
+    e.preventDefault()
+    let commentDiv = document.createElement('div')
+    let comment = document.querySelector("#comment-input").value
+    document.querySelector("#comment-input").value = ''
+    commentDiv.innerText = comment
+    commentsDiv.append(commentDiv)
+})
+
+
+// plusButton.addEventListener('click', function(e){
+//     incrementCounter()
+// })
+// minusButton.addEventListener('click', function(e){
+//     decrementCounter()
+// })
